@@ -15,6 +15,22 @@ library(iterators)
 ## Question 1
 
 ```{r}
+N = 100 
+n = 100
+
+result <- foreach(i = 1:5, .combine = rbind) %do% { 
+     sample <- rexp(n,rate=1)
+     c(mean(sample),sd(sample))
+} 
+
+# Set column names
+colnames(result) <- c("Mean", "SD")
+
+# Set row names to simple numbers
+rownames(result) <- 1:nrow(result)
+
+# Print the result
+knitr::kable(head(result), caption = "Summary Statistics of Exponential Samples - first 5 values")
 
 ```
 
