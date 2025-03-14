@@ -77,6 +77,8 @@ time2
 
 ```
 
+The parallel process is slower due to overhead costs. The individual tasks are not computationally heavy enough for paralisation to be beneficial.
+
 ## Question 3
 
 ```{r}
@@ -136,9 +138,11 @@ cl <- makeCluster(detectCores() - 1)
 clusterExport(cl, "task_function")
 
 # Run parallel computation
-set.seed(1234)
 system.time({
-  results_parLapply <- parLapply(cl, 1:3, function(i) task_function())
+  itr <- irnorm(5)
+  set.seed(1234)
+  vec <- list(nextElem(itr),nextElem(itr),nextElem(itr))
+  parLapply(cl, vec, max)
 })
 
 # Stop cluster
@@ -162,3 +166,5 @@ results_parLapply
 results_foreach
 results_replicate
 ```
+
+Times in order of fastest: replicate, foreach, parlapply
